@@ -10,6 +10,8 @@ class PokemonLister {
     this.pokemonsNodeContainer = document.getElementById('pokemon-container')
     this.searchForm = document.getElementById('pokemon-seach-input')
     this.searchForm.addEventListener('keyup',this.findPokemons.bind(this))
+    this.pokemonsNodeContainer.addEventListener('click',this.flipPokemonCard.bind(this))
+
   }
 
   parsePokemonsJSON(pokemonsJSON) {
@@ -17,6 +19,7 @@ class PokemonLister {
   }
 
   findPokemons() {
+    this.restoreFrontImages()
     if (this.searchForm.value !== '') {
       this.pokemonsToDisplay = this.pokemons.filter( pokemon => pokemon.name.includes(this.searchForm.value) )
     } else {
@@ -25,8 +28,20 @@ class PokemonLister {
     this.render()
   }
 
+  flipPokemonCard() {
+    if (event.target.dataset.action === 'flip-image') {
+        const pokemon = this.pokemons.find( pokemon => pokemon.name === event.target.dataset.pokename)
+        pokemon.image = pokemon.backImage
+        this.render()
+    }
+  }
+
+  restoreFrontImages() {
+    this.pokemons.map( pokemon => pokemon.image = pokemon.frontImage )
+  }
+
   pokemonsHTML() {
-    return this.pokemonsToDisplay.map( pokemon => pokemon.render() )
+    return this.pokemonsToDisplay.map( pokemon => pokemon.render() ).join('')
   }
 
   render() {
