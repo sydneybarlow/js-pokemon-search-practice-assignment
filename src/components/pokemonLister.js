@@ -31,7 +31,7 @@ class PokemonLister {
   flipPokemonCard() {
     if (event.target.dataset.action === 'flip-image') {
         const pokemon = this.pokemons.find( pokemon => pokemon.name === event.target.dataset.pokename)
-        pokemon.image = pokemon.backImage
+        pokemon.image === pokemon.frontImage ? pokemon.image = pokemon.backImage : pokemon.image = pokemon.frontImage
         this.render()
     }
   }
